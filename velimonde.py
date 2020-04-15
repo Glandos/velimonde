@@ -84,6 +84,26 @@ def station_info(city, station_id, format='html'):
         pass
     abort(404)
 
+@app.route('/city/<city>/dashboard/<station_ids>')
+def dashboard(city, station_ids):
+    city_upper = get_city_upper(city)
+    format = 'html'
+    if station_ids[-5:] == '.json':
+        station_ids = station_ids[:-5]
+        format = 'json'
+    infos = OrderedDict()
+    for station_id in station_ids.split(','):
+        station_id = int(station_id)
+        infos[station_id] = get_station_info(city_upper, station_id)
+
+    if infos:
+        if format == 'json':
+            return jsonify(infos)
+        elif format == 'html':
+            return render_template('station_dashboard.html', city=city_upper, infos=infos)
+
+    abort(404)
+
 @app.route('/cmcmp')
 def cmcmp():
     return render_template('cmcmp.html')

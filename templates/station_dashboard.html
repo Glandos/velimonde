@@ -1,0 +1,39 @@
+{% extends "bare.html" %}
+{% block title %}Vélimonde - {{ city }} - {{ infos.keys()|join(", ") }}{% endblock %}
+{% block head %}
+{{ super() }}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<style type='text/css'>
+  div.station:nth-child(2n) {
+      background: lightgrey;
+  }
+
+  div.station {
+      padding: 0.3em 3px;
+  }
+
+  div.station > p {
+      margin: 0;
+  }
+</style>
+
+{% endblock %}
+{% block body %}
+<h3>
+{{ city }}
+</h3>
+{% for id, info in infos.iteritems() %}
+<div id={{ "station_" ~ info['id'] }} class="station">
+	<p>
+	    {{ info['name'] }}
+	</p>
+	{% if not info['open'] %}
+	<p>This station is CLOSED!</p>
+	{% endif %}
+	<span style="font-weight: bold; font-size:1.5em">{{ info['available_bikes'] }}</span>/{{ info['bike_stands'] }} bikes here {{ info['last_update'] | tomin }} minute(s) ago
+</div>
+
+{% endfor %}
+{% endblock %}
