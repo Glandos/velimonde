@@ -6,7 +6,7 @@
 # update options
 #   url : the URL of the data feed (required)
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import xml.etree.ElementTree as ET
 import json
 import sys
@@ -24,12 +24,12 @@ info = {
 }
 
 def update(options={}):
-    if options.has_key('api_key'):
+    if 'api_key' in options:
         key = options['api_key']
         url = 'http://data.lacub.fr/wfs?key={0}&REQUEST=GetFeature&TYPENAME=CI_VCUB_P&service=wfs&VERSION=1.1.0&SRSNAME=EPSG%3A4326'.format(key)
 
         try:
-            r = urllib2.urlopen(url)
+            r = urllib.request.urlopen(url)
 
             response = r.read()
             root = ET.fromstring(response)
@@ -38,7 +38,7 @@ def update(options={}):
             with open('data/Bordeaux.json', 'w') as f:
                 json.dump(out_json, f, separators=(',',':'))
         except:
-            sys.stderr.write(u'Failed to retrieve data for Bordeaux ({0} plugin)'.format(__name__))
+            sys.stderr.write('Failed to retrieve data for Bordeaux ({0} plugin)'.format(__name__))
     else:
         sys.stderr.write('LACUB feed url not defined in options dict')
 

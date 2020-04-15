@@ -7,7 +7,7 @@
 # update options
 #   api_key : JCDecaux API key (required)
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 import sys
 
@@ -16,28 +16,28 @@ import sys
 # the local name is the one displayed beside the map
 # see http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 cities = {
-    u'Amiens'             : { 'country': 'FR' } ,
-    u'Besancon'           : { 'country': 'FR' } ,
-    u'Bruxelles-Capitale' : { 'country': 'FR' } ,
-    u'Cergy-Pontoise'     : { 'country': 'FR' } ,
-    u'Créteil'            : { 'country': 'FR' } ,
-    u'Göteborg'           : { 'country': 'SE' } ,
-    u'Ljubljana'          : { 'country': 'SI' } ,
-    u'Luxembourg'         : { 'country': 'LU' } ,
-    u'Lyon'               : { 'country': 'FR' } ,
-    u'Marseille'          : { 'country': 'FR' } ,
-    u'Mulhouse'           : { 'country': 'FR' } ,
-    u'Namur'              : { 'country': 'BE' } ,
-    u'Nancy'              : { 'country': 'FR' } ,
-    u'Nantes'             : { 'country': 'FR' } ,
-    u'Paris'              : { 'country': 'FR' } ,
-    u'Rouen'              : { 'country': 'FR' } ,
-    u'Santander'          : { 'country': 'ES' } ,
-    u'Sevilla'            : { 'country': 'ES' } ,
-    u'Stockholm'          : { 'country': 'SE' } ,
-    u'Toulouse'           : { 'country': 'FR' } ,
-    u'富山市'             : { 'country': 'JP' } ,
-    u'Valencia'           : { 'country': 'ES' }
+    'Amiens'             : { 'country': 'FR' } ,
+    'Besancon'           : { 'country': 'FR' } ,
+    'Bruxelles-Capitale' : { 'country': 'FR' } ,
+    'Cergy-Pontoise'     : { 'country': 'FR' } ,
+    'Créteil'            : { 'country': 'FR' } ,
+    'Göteborg'           : { 'country': 'SE' } ,
+    'Ljubljana'          : { 'country': 'SI' } ,
+    'Luxembourg'         : { 'country': 'LU' } ,
+    'Lyon'               : { 'country': 'FR' } ,
+    'Marseille'          : { 'country': 'FR' } ,
+    'Mulhouse'           : { 'country': 'FR' } ,
+    'Namur'              : { 'country': 'BE' } ,
+    'Nancy'              : { 'country': 'FR' } ,
+    'Nantes'             : { 'country': 'FR' } ,
+    'Paris'              : { 'country': 'FR' } ,
+    'Rouen'              : { 'country': 'FR' } ,
+    'Santander'          : { 'country': 'ES' } ,
+    'Sevilla'            : { 'country': 'ES' } ,
+    'Stockholm'          : { 'country': 'SE' } ,
+    'Toulouse'           : { 'country': 'FR' } ,
+    '富山市'             : { 'country': 'JP' } ,
+    'Valencia'           : { 'country': 'ES' }
 }
 
 # Unused for now
@@ -50,28 +50,28 @@ info = {
 }
 
 _provider_ids = {
-    u'Amiens'             : 'Amiens',
-    u'Besancon'           : 'Besancon',
-    u'Bruxelles-Capitale' : 'Bruxelles-Capitale',
-    u'Cergy-Pontoise'     : 'Cergy-Pontoise',
-    u'Créteil'            : 'Creteil',
-    u'Göteborg'           : 'Goteborg',
-    u'Ljubljana'          : 'Ljubljana',
-    u'Luxembourg'         : 'Luxembourg',
-    u'Lyon'               : 'Lyon',
-    u'Marseille'          : 'Marseille',
-    u'Mulhouse'           : 'Mulhouse',
-    u'Namur'              : 'Namur',
-    u'Nancy'              : 'Nancy',
-    u'Nantes'             : 'Nantes',
-    u'Paris'              : 'Paris',
-    u'Rouen'              : 'Rouen',
-    u'Santander'          : 'Santander',
-    u'Sevilla'            : 'Seville',
-    u'Stockholm'          : 'Stockholm',
-    u'Toulouse'           : 'Toulouse',
-    u'富山市'             : 'Toyama',
-    u'Valencia'           : 'Valence'
+    'Amiens'             : 'Amiens',
+    'Besancon'           : 'Besancon',
+    'Bruxelles-Capitale' : 'Bruxelles-Capitale',
+    'Cergy-Pontoise'     : 'Cergy-Pontoise',
+    'Créteil'            : 'Creteil',
+    'Göteborg'           : 'Goteborg',
+    'Ljubljana'          : 'Ljubljana',
+    'Luxembourg'         : 'Luxembourg',
+    'Lyon'               : 'Lyon',
+    'Marseille'          : 'Marseille',
+    'Mulhouse'           : 'Mulhouse',
+    'Namur'              : 'Namur',
+    'Nancy'              : 'Nancy',
+    'Nantes'             : 'Nantes',
+    'Paris'              : 'Paris',
+    'Rouen'              : 'Rouen',
+    'Santander'          : 'Santander',
+    'Sevilla'            : 'Seville',
+    'Stockholm'          : 'Stockholm',
+    'Toulouse'           : 'Toulouse',
+    '富山市'             : 'Toyama',
+    'Valencia'           : 'Valence'
 }
 
 def update(options={}):
@@ -88,16 +88,16 @@ def update(options={}):
     api_key = options['api_key']
     if api_key:
         c_info_url_format = "https://api.jcdecaux.com/vls/v1/stations?contract={0}&apiKey="+api_key
-        for k, v in cities.iteritems():
+        for k, v in cities.items():
             url = c_info_url_format.format(_provider_ids[k])
             try:
-                r = urllib2.urlopen(url)
+                r = urllib.request.urlopen(url)
                 in_json  = json.load(r)
                 out_json = _reformat_json(in_json, k)
-                with open(u'data/{0}.json'.format(k).encode('utf-8'), 'w') as f:
+                with open('data/{0}.json'.format(k), 'w') as f:
                     json.dump(out_json, f, separators=(',',':'));
             except:
-                sys.stderr.write(u'Failed to retrieve data for {0} ({1} plugin)'.format(k, __name__).encode('utf-8'))
+                sys.stderr.write('Failed to retrieve data for {0} ({1} plugin)'.format(k, __name__))
     else:
         sys.stderr.write('JCDecaux API key not defined in options dict')
 

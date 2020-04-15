@@ -7,13 +7,13 @@
 # update options
 #   api_key : Keolis API key (required)
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 import sys
 import os
 import datetime
 
-cities = { u'Rennes'             : { 'country': 'FR' } }
+cities = { 'Rennes'             : { 'country': 'FR' } }
 
 #Unused for now
 info = {
@@ -29,13 +29,13 @@ def update(options={}):
     if api_key:
         url = 'http://data.keolis-rennes.com/json/?version=2.0&key={0}&cmd=getbikestations'.format(api_key)
         try:
-            r = urllib2.urlopen(url)
+            r = urllib.request.urlopen(url)
             in_json  = json.load(r)
             out_json = _reformat_json(in_json)
-            with open(u'data/Rennes.json', 'w') as f:
+            with open('data/Rennes.json', 'w') as f:
                 json.dump(out_json, f, separators=(',',':'));
         except:
-            sys.stderr.write(u'Failed to retrieve data for Rennes ({1} plugin)'.format(k, __name__).encode('utf-8'))
+            sys.stderr.write('Failed to retrieve data for Rennes ({1} plugin)'.format(k, __name__))
     else:
         sys.stderr.write('Keolis Rennes API key not defined in options dict')
 
@@ -67,7 +67,7 @@ def _reformat_json(data):
 
             #  Format it, forcing it to be considered UTC time,
             # not too sure how portable this is though...
-            if os.environ.has_key('TZ'):
+            if 'TZ' in os.environ:
                 tz = os.environ['TZ']
             os.environ['TZ'] = 'UTC'
             last_update = int(last_update.strftime('%s'))*1000

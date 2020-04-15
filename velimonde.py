@@ -17,13 +17,13 @@ if __name__ == '__main__':
 # initialization
 cities = velimonde_providers.get_cities()
 
-cities_upper = cities.keys()
-cities_lower = map(lambda x:x.lower(), cities_upper)
+cities_upper = list(cities.keys())
+cities_lower = [x.lower() for x in cities_upper]
 
 output_formats = ['html', 'json']
 
 with open('static/cities.json', 'w') as f:
-    ordered_cities = OrderedDict(sorted(cities.items(), key=lambda t: t[0]))
+    ordered_cities = OrderedDict(sorted(list(cities.items()), key=lambda t: t[0]))
     f.write(json.dumps(ordered_cities))
 
 # create our little application :)
@@ -32,7 +32,7 @@ app.config.from_object(__name__)
 
 
 def get_station_info(city, station_id):
-    with open(u'data/{0}.json'.format(city)) as f:
+    with open('data/{0}.json'.format(city)) as f:
         stations = json.load(f)
     for s in stations:
         if s['id'] == station_id:

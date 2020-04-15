@@ -6,7 +6,7 @@
 # update options
 #   url : the URL of the data feed (required)
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import xml.etree.ElementTree as ET
 import json
 import sys
@@ -25,7 +25,7 @@ def update(options={}):
     url = options['url']
     if url:
         try:
-            r = urllib2.urlopen(url)
+            r = urllib.request.urlopen(url)
 
             root = ET.fromstring(r.read())
             out_json = _format_to_json(root)
@@ -33,7 +33,7 @@ def update(options={}):
             with open('data/London.json', 'w') as f:
                 json.dump(out_json, f, separators=(',',':'))
         except:
-            sys.stderr.write(u'Failed to retrieve data for London ({0} plugin)'.format(__name__))
+            sys.stderr.write('Failed to retrieve data for London ({0} plugin)'.format(__name__))
     else:
         sys.stderr.write('TfL feed url not defined in options dict')
 
