@@ -2,8 +2,9 @@ from . import tfl_london
 from . import jcdecaux
 from . import keolis_rennes
 from . import lacub_bordeaux
+from . import smovengo
 
-plugins = [tfl_london, jcdecaux, keolis_rennes, lacub_bordeaux]
+plugins = [tfl_london, jcdecaux, keolis_rennes, lacub_bordeaux, smovengo]
 
 def get_cities(plugin_name_list=[]):
     """ Return a dict containing the cities of plugins matching the input list,

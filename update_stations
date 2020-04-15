@@ -8,6 +8,7 @@ options = {
         'tfl_london' : { 'url' : '<TfL data feed url here>' },
         'keolis_rennes' : { 'api_key' : '<your Keolis Rennes API key here>' },
         'lacub_bordeaux' : { 'api_key' : '<your LACUB API key here>' },
-        'jcdecaux' : { 'api_key' : '<your JCDecaux API key here>' } }
+        'jcdecaux' : { 'api_key' : '<your JCDecaux API key here>' },
+        'smovengo': {} }
 
 velimonde_providers.update_all(options)
