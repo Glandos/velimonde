@@ -1,5 +1,7 @@
 ## Vélimonde
 
+This fork is maintained for my own needs. And a port to Python3.
+
 #### Overview
 
 Rather stupid webapp showing location and availability of automated bike rental stations.
@@ -13,9 +15,9 @@ Rather stupid webapp showing location and availability of automated bike rental 
 
 #### Demo
 
-You can check [the demo](http://velimonde.oknaj.eu/) out.
+You can check [the demo](https://velo.antipoul.fr/) out.
 
-Some say there's a [REST API](http://velimonde.oknaj.eu/api) you can use to access a city or station
+Some say there's a [REST API](https://velo.antipoul.fr/api) you can use to access a city or station
 directly.
 
 #### Getting your own rolling
