@@ -50,7 +50,7 @@ def _reformat_json(status, information):
                 'lat': round(float(s_info['lat']), 6),
                 'lng': round(float(s_info['lon']), 6)
                 },
-            'open'            : s['is_renting'] == '1',
+            'open'            : s['is_renting'] == 1,
             'bike_stands'     : s['num_docks_available'],
             'available_bikes' : s['num_bikes_available'],
             'last_update'     : s['last_reported']
